@@ -34,13 +34,15 @@ int parse_command(int argc, char *argv[]) {
                    "Two arguments are mandatory, song name is included in filename each time.\n"
                    "  -h/--help print this help\n"
                    "  -v/--version print version number and license\n\n"
-                   "If no options are specified, the program is set to run in GUI mode.\n");
+                   "If no options are specified, the program is set to run in GUI mode.\n\n"
+                   "Website: https://github.com/Etua/Sagger\n");
         }
         else if(strcmp(argv[1], "-v") == 0 || strcmp(argv[1], "--version") == 0) {
             printf("%s %s\nCopyright (C) 2020 Dominik Danelski\n\n"
                    "This program comes with ABSOLUTELY NO WARRANTY;\n"
                    "This is free software, and you are welcome to redistribute it under certain conditions.\n"
-                   "More information in the COPYING file and license notices in the source files.\n", program_name, version_number);
+                   "More information in the COPYING file and license notices in the source files.\n\n"
+                   "Website: https://github.com/Etua/Sagger\n", program_name, version_number);
         }
         else
             error(1, 22, NULL);

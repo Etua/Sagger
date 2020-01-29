@@ -49,6 +49,7 @@ void open_info_window(GtkWidget *somewidget) {
     gtk_about_dialog_set_copyright(about, "Copyright © 2020 Dominik 'Etua' Danelski");
     gtk_about_dialog_set_comments(about, "Tag audio files with ease");
     gtk_about_dialog_set_license_type(about, GTK_LICENSE_GPL_3_0);
+    gtk_about_dialog_set_website(about, "https://github.com/Etua/Sagger");
     gtk_about_dialog_set_authors(about, authors);
     gtk_dialog_run(GTK_DIALOG(about));
     gtk_widget_destroy( GTK_WIDGET(about));
