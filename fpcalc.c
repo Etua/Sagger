@@ -58,18 +58,9 @@ void fpcalc(fpcalc_data *fpc_result, char *fpc_filename) {
 
 //Prepeares AcoustID API request to be used by curl_download_data
 void request_constructor(int curl_lenght, char *curl_id, char *curl_api, char *curl_request) {
-    char request_parts[4][50];
-    strcpy(request_parts[0], "https://api.acoustid.org:443/v2/lookup?client=");
-    strcpy(request_parts[1], "&meta=recordings+releasegroups&duration=");
-    sprintf(request_parts[2], "%d", curl_lenght);
-    strcpy(request_parts[3], "&fingerprint=");
-
-    strcpy(curl_request, request_parts[0]);
-    strcat(curl_request, curl_api);
-    strcat(curl_request, request_parts[1]);
-    strcat(curl_request, request_parts[2]);
-    strcat(curl_request, request_parts[3]);
-    strcat(curl_request, curl_id);
+    sprintf(curl_request, "https://api.acoustid.org:443/v2/lookup?client=%s"
+                                 "&meta=recordings+releasegroups&duration=%d&fingerprint=%s",
+                                 curl_api, curl_lenght, curl_id);
 }
 
 //Writes data downloaded by curl_download_data to the file
