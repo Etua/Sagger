@@ -199,7 +199,7 @@ void master_function(run_settings run_final, _Bool graphical) {
         open_second_window(run_final.first_window, master_label);
     else
         if(file_number < 0)
-            error(1, 0, "%s", master_label);
+            error(1, 0, "%s\n", master_label);
         else
-            printf("%s", master_label);
+            printf("%s\n", master_label);
 }
