@@ -71,7 +71,7 @@ static size_t curl_write_data(void *ptr, size_t size, size_t nmemb, void *stream
 }
 
 //Download data based on the request that was prepared beforehand
-void curl_download_data(char *curl_filename, char *curl_request) {
+int curl_download_data(char *curl_filename, char *curl_request) {
     //Delay the request by third of a second (terms of AcoustID)
     //TODO Currently it is assumed that all other functions perform in no time. If replaced by timer measuring period
     //between requests, it would make the program perform faster by a fraction of second for each checked file
@@ -97,4 +97,5 @@ void curl_download_data(char *curl_filename, char *curl_request) {
     }
     curl_easy_cleanup(curl_handle);
     curl_global_cleanup();
+    return curl_error;
 }

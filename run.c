@@ -150,14 +150,18 @@ void master_function(run_settings run_final, _Bool graphical) {
                     fpcalc(master_fpcalc_data, file_p->fts_path);
                     if (master_fpcalc_data->length == -1) {
                         if(graphical == FALSE)
-                            printf("Not processed further.\n");
+                            printf("Unsupported file format.\n");
                         continue;
                     }
 
                     //Prepare request, download data to the temporary file and retrieve metadata
                     request_constructor(master_fpcalc_data->length, master_fpcalc_data->fingerprint, acoustid_key,
                                         master_curl_request);
-                    curl_download_data(json_filename, master_curl_request);
+                    if(curl_download_data(json_filename, master_curl_request) != 0) {
+                        if(graphical == FALSE)
+                            printf("Network error.\n");
+                        continue;
+                    }
                     glib_parse(master_recording_metadata, json_filename);
 
                     //Fallback for corrupted or missing data

@@ -24,6 +24,6 @@
 
 void fpcalc(fpcalc_data *fpc_result, char *fpc_filename);
 void request_constructor(int curl_lenght, char *curl_id, char *curl_api, char *curl_request);
-void curl_download_data(char *curl_filename, char *curl_request);
+int curl_download_data(char *curl_filename, char *curl_request);
 
 #endif //SAGGER_FPCALC_H
