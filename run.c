@@ -72,9 +72,9 @@ void new_filename(run_settings new_filename_settings, recording_metadata *new_fi
     if(strcmp(special_name, "none") != 0) {
         strcat(set->dirname, special_name);
     } else {
-        if(new_filename_settings.is_artist[0] == TRUE) {
+        if(new_filename_settings.is_artist[0]) {
             strcat(set->dirname, new_filename_metadata->artist_name);
-        } else if (new_filename_settings.is_album[0] == TRUE) {
+        } else if (new_filename_settings.is_album[0]) {
             strcat(set->dirname, new_filename_metadata->album_name);
         } else {
             strcat(set->dirname, new_filename_metadata->artist_name);
@@ -86,14 +86,14 @@ void new_filename(run_settings new_filename_settings, recording_metadata *new_fi
     //Prepare filename
     strcpy(set->filename, set->dirname);
     strcat(set->filename, "/");
-    if(retain_filename == TRUE) {
+    if(retain_filename) {
         strcat(set->filename, old_name);
     } else {
-        if(new_filename_settings.is_artist[1] == TRUE) {
+        if(new_filename_settings.is_artist[1]) {
             strcat(set->filename, new_filename_metadata->artist_name);
             strcat(set->filename, inter);
         }
-        if(new_filename_settings.is_album[1] == TRUE) {
+        if(new_filename_settings.is_album[1]) {
             strcat(set->filename, new_filename_metadata->album_name);
             strcat(set->filename, inter);
         }
@@ -143,13 +143,13 @@ void master_function(run_settings run_final, _Bool graphical) {
                 //Checks permissions for individual file from source directory
                 if (access(file_p->fts_path, existence_test) == 0) {
                     //Progress in CLI is indicated by printing each file path. Currently it is unconditional.
-                    if(graphical == FALSE)
+                    if(!graphical)
                         printf("Current file: %s\n", file_p->fts_path);
 
                     //-1 means that fpcalc returned an error, usually because the source file did not contain music.
                     fpcalc(master_fpcalc_data, file_p->fts_path);
                     if (master_fpcalc_data->length == -1) {
-                        if(graphical == FALSE)
+                        if(!graphical)
                             printf("Unsupported file format.\n");
                         continue;
                     }
@@ -158,7 +158,7 @@ void master_function(run_settings run_final, _Bool graphical) {
                     request_constructor(master_fpcalc_data->length, master_fpcalc_data->fingerprint, acoustid_key,
                                         master_curl_request);
                     if(curl_download_data(json_filename, master_curl_request) != 0) {
-                        if(graphical == FALSE)
+                        if(!graphical)
                             printf("Network error.\n");
                         continue;
                     }
@@ -176,12 +176,12 @@ void master_function(run_settings run_final, _Bool graphical) {
                     char duplicate_name[20];
                     //This loop will work until directory with no file of the same name is found.
                     //TODO Because of current logic duplicate files which otherwise should have ended in "[unknown]" can be placed in "[duplicate]"
-                    for(int i = 1; change_name(file_p->fts_path, master_names) == FALSE; i++) {
+                    for(int i = 1; !change_name(file_p->fts_path, master_names); i++) {
                         sprintf(duplicate_name, "[duplicate%d]", i);
                         new_filename(run_final, master_recording_metadata, run_final.f_dir_2, master_names,
                                      duplicate_name, FALSE, file_p->fts_name);
                     }
-                    if(graphical == FALSE)
+                    if(!graphical)
                         printf("New location: %s\n", master_names->filename);
                     //Indicates number of moved files or error code not allowing the loop to start
                     file_number++;
@@ -199,7 +199,7 @@ void master_function(run_settings run_final, _Bool graphical) {
     //Prepare final message
     char master_label[300];
     create_label(file_number, master_label);
-    if(graphical == TRUE)
+    if(graphical)
         open_second_window(run_final.first_window, master_label);
     else
         if(file_number < 0)
